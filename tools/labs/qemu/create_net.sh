@@ -36,4 +36,4 @@ sudo /sbin/ip link set dev "$device" up
 
 mkdir -p $PWD/tftp
 
-sudo dnsmasq --enable-tftp --tftp-root=$PWD/tftp --no-resolv --no-hosts --bind-interfaces --interface $device -F $subnet.2,$subnet.20 -x dnsmasq.pid || true
+sudo dnsmasq --tftp-no-fail --enable-tftp --tftp-root=$PWD/tftp --no-resolv --no-hosts --bind-interfaces --interface $device -F $subnet.2,$subnet.20 -x dnsmasq.pid || true

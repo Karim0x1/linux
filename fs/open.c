@@ -1305,14 +1305,17 @@ static long do_sys_openat2(int dfd, const char __user *filename,
 	if (IS_ERR(tmp))
 		return PTR_ERR(tmp);
 
+	/* Karim: Récupère un descripteur de fichier non utilisé */
 	fd = get_unused_fd_flags(how->flags);
 	if (fd >= 0) {
+		/* Karim: Alloue la struct file */
 		struct file *f = do_filp_open(dfd, tmp, &op);
 		if (IS_ERR(f)) {
 			put_unused_fd(fd);
 			fd = PTR_ERR(f);
 		} else {
 			fsnotify_open(f);
+			/* Karim: Ajoute le descripteur de fichier dans le tableau fd_array de struct files_struct */
 			fd_install(fd, f);
 		}
 	}
